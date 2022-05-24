@@ -1,0 +1,41 @@
+CREATE TABLE MGCDF_warehouse( 
+	WAREHOUSE_CODE INT, 
+	PURCHASE_ORDER INT PRIMARY KEY, 
+	SUPPLIER_CODE INT
+); 
+
+INSERT INTO MGCDF_warehouse VALUES(400, 268, 565); 
+
+CREATE TABLE MGSCD_store(
+	WAREHOUSE INT, 
+	PURCHASE_ORDER INT references MGCDF_warehouse(PURCHASE_ORDER),
+	STATUS INT, 
+	STATUS_CHANGE_DATE_TIME timestamp,  
+	USER_ VARCHAR(50)
+);
+
+
+INSERT INTO MGSCD_store VALUES(400, 268, 1, '07.09.2018 8:59:34', 'RU20010049'); 
+INSERT INTO MGSCD_store VALUES(400, 268, 30, '07.09.2018 9:18:53', 'RU20010049'); 
+INSERT INTO MGSCD_store VALUES(400, 268, 95, '07.09.2018 9:20:59', 'RU20010049'); 
+
+SELECT STATUS_CHANGE_DATE_TIME AS CREATION_DATE_TIME 
+	FROM MGSCD_store
+	WHERE STATUS_CHANGE_DATE_TIME IN (SELECT STATUS_CHANGE_DATE_TIME FROM MGSCD_store WHERE STATUS=1);
+
+
+SELECT MGCDF_warehouse.WAREHOUSE_CODE, 
+	MGCDF_warehouse.PURCHASE_ORDER,
+	MGCDF_warehouse.SUPPLIER_CODE,
+	MGSCD_store.STATUS AS Current_purchase_order_status, 
+	MGSCD_store.USER_
+	FROM MGCDF_warehouse FULL JOIN  MGSCD_store ON MGCDF_warehouse.PURCHASE_ORDER=MGSCD_store.PURCHASE_ORDER; 
+	
+select * 
+from
+(SELECT (user_) as creator, (status_change_date_time) as creation_date_time, PURCHASE_ORDER FROM MGSCD_store where status = 1) as t1
+Join 
+(SELECT (user_) as cur_user, (status_change_date_time) as last_change, PURCHASE_ORDER, status as cur_status FROM MGSCD_store ORder by last_change DESC limit 1) as t2
+on t1.PURCHASE_ORDER = t2.PURCHASE_ORDER
+Join MGCDF_warehouse as t3
+on t2.PURCHASE_ORDER = t3.PURCHASE_ORDER;

@@ -1,0 +1,29 @@
+CREATE TABLE tab_tariffs(
+	article INT, 
+	tariff INT, 
+	currency VARCHAR(10), 
+	users VARCHAR(10), 
+	date_time TIMESTAMP
+); 
+
+INSERT INTO tab_tariffs VALUES(26859, 131459, 'RUR', 'CENTRAL', '23.06.2019 15:55');
+INSERT INTO tab_tariffs VALUES(26860, 131459, 'RUR', 'CENTRAL', '10.08.2018 5:07:14'); 
+INSERT INTO tab_tariffs VALUES(26860, 131459, 'RUR', 'CENTRAL', '23.06.2019 15:55:13'); 
+INSERT INTO tab_tariffs VALUES(26862, 131459, 'RUR', 'CENTRAL', '23.06.2019 15:55:13');
+INSERT INTO tab_tariffs VALUES(26863, 131459, 'RUR', 'CENTRAL', '23.06.2019 15:55:13');
+INSERT INTO tab_tariffs VALUES(26865, 131459, 'RUR', 'CENTRAL', '23.06.2019 15:55:13');
+INSERT INTO tab_tariffs VALUES(26866, 131459, 'RUR', 'CENTRAL', '23.06.2019 15:55:13');
+INSERT INTO tab_tariffs VALUES(26866, 131459, 'RUR', 'CENTRAL', '10.08.2018 5:07:14');
+INSERT INTO tab_tariffs VALUES(26872, 119361, 'RUR', 'CENTRAL', '23.06.2019 15:55:13');
+INSERT INTO tab_tariffs VALUES(26872, 119361, 'RUR', 'CENTRAL', '23.06.2019 15:55:13');
+INSERT INTO tab_tariffs VALUES(26873, 123854, 'RUR', 'CENTRAL', '23.06.2019 15:55:13');
+INSERT INTO tab_tariffs VALUES(26877, 75068, 'RUR', 'iomel', '12.12.2018 5:40:41');
+INSERT INTO tab_tariffs VALUES(26877, 75068, 'RUR', 'iomel', '02.07.2018 18:56:58');
+
+
+SELECT * FROM tab_tariffs;
+
+SELECT article, users, date_time as last_tariff_creation_date_time FROM tab_tariffs WHERE users='iomel' ORDER BY date_time DESC FETCH FIRST ROW ONLY;  
+
+
+
